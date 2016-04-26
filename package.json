@@ -2,6 +2,9 @@
   "name": "grunt-touch",
   "version": "1.0.0",
   "description": "Touch files",
+  "files": [
+    "tasks/touch.js"
+  ],
   "keywords": [
     "gruntplugin",
     "touch"
