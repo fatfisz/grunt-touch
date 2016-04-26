@@ -16,9 +16,7 @@ npm install grunt-touch --save-dev
 grunt.loadNpmTasks('grunt-touch');
 
 grunt.initConfig({
-  touch: {
-    target: ['file.js'],
-  },
+  touch: ['file.js'],
 });
 ```
 
@@ -37,6 +35,7 @@ grunt.initConfig({
     target: ['match_*.js'],
   },
 });
+```
 
 ### Custom date
 
@@ -51,7 +50,7 @@ grunt.initConfig({
     target: ['file.js'],
   },
 });
-
+```
 
 ## Options
 
