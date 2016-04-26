@@ -3,13 +3,13 @@
  * https://github.com/mapsherpa/grunt-touch
  *
  * Copyright (c) 2013 Paul Spencer
+ * Copyright (c) 2016 FatFisz
  * Licensed under the MIT license.
  */
 
 'use strict';
 
 module.exports = function(grunt) {
-
   // Project configuration.
   grunt.initConfig({
     jshint: {
@@ -30,19 +30,38 @@ module.exports = function(grunt) {
 
     // Configuration to be run (and then tested).
     touch: {
-      default_options: {
+      default: ['tmp/default123', 'tmp/default456'],
+      empty: [],
+      nested: ['tmp/first/second/nested123', 'tmp/first/second/nested456'],
+      custom_time: {
         options: {
+          time: 100000,
         },
-        files: {
-          src: ['tmp/default123'],
-        },
+        src: ['tmp/custom123', 'tmp/custom456'],
       },
-      custom_options: {
+      patterns_setup: [
+        'tmp/pattern123',
+        'tmp/pattern456',
+        'tmp/ext_pattern123',
+        'tmp/ext_pattern456',
+      ],
+      match: {
         options: {
+          match: true,
+          time: 200000,
         },
-        files: {
-          src: ['tmp/custom/123', 'tmp/custom/456'],
+        src: ['tmp/pattern*'],
+      },
+      ext_match: {
+        options: {
+          match: true,
+          time: 300000,
         },
+        files: [{
+          expand: true,
+          cwd: 'tmp',
+          src: 'ext_pattern*',
+        }],
       },
     },
 
@@ -50,7 +69,6 @@ module.exports = function(grunt) {
     nodeunit: {
       tests: ['test/*_test.js'],
     },
-
   });
 
   // Actually load this plugin's task(s).
@@ -67,5 +85,4 @@ module.exports = function(grunt) {
 
   // By default, lint and run all tests.
   grunt.registerTask('default', ['jshint', 'test']);
-
 };

@@ -3,46 +3,64 @@
  * https://github.com/mapsherpa/grunt-touch
  *
  * Copyright (c) 2013 Paul Spencer
+ * Copyright (c) 2016 FatFisz
  * Licensed under the MIT license.
  */
 
 'use strict';
 
-module.exports = function(grunt) {
+var path = require('path');
 
-  // Please see the Grunt documentation for more information regarding task
-  // creation: http://gruntjs.com/creating-tasks
-  
-  var touch = require('touch');
-  var path = require('path');
-  
-  grunt.registerMultiTask('touch', 'Touch files.', function() {
-    
-    var done = this.async();
-    
-    // Merge task-specific and/or target-specific options with these defaults.
-    var options = this.options({
-      force: false,
-      time: new Date(),
-      nocreate: false
+var flatten = require('lodash.flatten');
+var uniq = require('lodash.uniq');
+var touch = require('touch');
+
+
+module.exports = function(grunt) {
+  grunt.registerMultiTask('touch', 'Touch files', function() {
+    var task = this;
+    var done = task.async();
+    var options = task.options({
+      match: false,
     });
 
-    // Iterate over all specified file groups.
-    grunt.util.async.every(this.files, function(file, next) {
-      grunt.util.async.every(file.src, function(f) {
-        grunt.verbose.writeln('touching ' + f);
-        if (!grunt.file.exists(f)) {
-          grunt.file.mkdir(path.dirname(f));
-        }
-        touch(f, options, function(err) {
+    if (options.match) {
+      grunt.verbose.writeln('Touching only matched files');
+    } else {
+      grunt.verbose.writeln('Touching the original files');
+    }
+
+    var filepaths = uniq(flatten(task.files.map(function(file) {
+      return options.match ? file.src : file.orig.src;
+    })));
+
+    if (filepaths.length === 0) {
+      grunt.log.writeln('Could not find any files to touch.');
+    }
+
+    // Touch each file.
+    Promise.all(filepaths.map(function(filepath) {
+      grunt.verbose.writeln('Touching ' + filepath);
+      if (!grunt.file.exists(filepath)) {
+        grunt.file.mkdir(path.dirname(filepath));
+      }
+
+      return new Promise(function(resolve, reject) {
+        touch(filepath, options, function(err) {
           if (err) {
-            grunt.log.error('error touching file: ', err);
-            return next(false);
+            grunt.log.error('Error while touching file: ', err);
+            return reject();
           }
-          next(true);
+          resolve();
         });
       });
-    }, done);
+    }))
+      .then(function() {
+        done();
+      })
+      .catch(function(err) {
+        done(false);
+      });
   });
 
 };
