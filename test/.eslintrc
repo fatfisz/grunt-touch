@@ -1,0 +1,11 @@
+{
+  "extends": "../.eslintrc",
+  "env": {
+    "mocha": true
+  },
+  "rules": {
+    "global-require": 0,
+
+    "prefer-spread": 0
+  }
+}
