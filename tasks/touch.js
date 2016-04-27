@@ -1,9 +1,9 @@
 /*
  * grunt-touch
- * https://github.com/mapsherpa/grunt-touch
+ * https://github.com/fatfisz/grunt-touch
  *
  * Copyright (c) 2013 Paul Spencer
- * Copyright (c) 2016 FatFisz
+ * Copyright (c) 2016 Rafał Ruciński
  * Licensed under the MIT license.
  */
 

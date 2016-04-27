@@ -69,4 +69,4 @@ If you want to match the files by using patterns instead, set `match` to `true`.
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## License
-Copyright (c) 2013 Paul Spencer. Copyright (c) 2016 FatFisz. Licensed under the MIT license.
+Copyright (c) 2013 Paul Spencer. Copyright (c) 2016 Rafał Ruciński. Licensed under the MIT license.
