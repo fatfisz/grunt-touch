@@ -22,7 +22,7 @@ module.exports = function register(grunt) {
     },
 
     clean: {
-      all: ['dist', 'tmp'],
+      all: ['tasks', 'tmp'],
     },
 
     rollup: {
